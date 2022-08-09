@@ -1,6 +1,20 @@
+body{
+    background-color: deepskyblue;
+}
 
 h1{
     text-align:center;
     color: greenyellow;
     background-color: cornflowerblue;
+    font-size: 6em;
+}
+
+#texto{
+    font-size: 2em;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+#boton{
+    text-align: center;
 }
