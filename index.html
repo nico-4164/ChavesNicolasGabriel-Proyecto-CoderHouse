@@ -4,19 +4,46 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="estilo.css">
-    <script src="codigo.js"></script>
+
     <title>Proyecto CoderHouse</title>
 </head>
 <body>
-    <h1>Maratones 2.0</h1>
-    <div id="texto">
-        <span>Bienvenidos a mi proyecto para coderHouse, la idea es poder brindarte recomendaciones para esos finde largos o feriados en los que no quieres salir sino que quieres quedarte en casa todo el dia y disfrutar de una buena serie,plicula u/o anime pero no sabes que ver.</span>
+    <h1 id="titulo">Maratones 2.0</h1>
+    <div id="formulario_busqueda" class="container">
+        <div class="form-goup">
+            <form>
+                <label for="fname">Ingrese el tipo de maraton que quiere realizar:</label>
+                <select name="cars" id="tipo_maraton">
+                    <option value="anime">Elegir tipo de maraton</option>
+                    <option value="anime">anime</option>
+                    <option value="serie">Serie</option>
+                </select><br>
+                <label for="fname">Ingrese la duracion minima que quiere para su maraton:</label>
+                <input type="number" id="duracion_minima" value="0"><br>
+                <label for="lname">Ingrese la duracion maxima que quiere para su maraton:</label>
+                <input type="number" id="duracion_maxima" value="0"><br>
+            </form>
+        </div>
+    </div>
+
+    <div id="contenedor">
+        <div class="card">
+            <div class="card-body">
+                <h5 id="maraton_mensaje"></h5>
+                <h5 id="maraton_titulo" class="card-title">Nombre Maraton</h5>
+                <h5 id="maraton_capitulos" class="card-title">Capitulos Maraton</h5>
+                <h5 id="maraton_duracion" class="card-title">Duracion Maraton</h5>
+            </div>
+        </div>
     </div>
     <br>
     <div id="boton">
         <button onclick="devolverMaraton()">Buscar contenido</button>
     </div>
-    
+    <script src="codigo.js"></script>
 </body>
 </html>
