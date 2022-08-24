@@ -11,9 +11,17 @@
 
     <title>Proyecto CoderHouse</title>
 </head>
-<body>
-    <h1 id="titulo">Maratones 2.0</h1>
-    <div id="formulario_busqueda" class="container">
+<body class="claro">
+
+    <nav class="navbar navbar-dark bg-primary">
+        <!-- Navbar content -->
+        <h1 id="titulo">Maratones 2.0</h1>
+        <ul class="nav navbar-nav navbar-right">
+            <button id="botonTema" class="switch">Modo Oscuro</button>
+        </ul>
+    </nav>
+
+    <div id="contenedor" class="container">
         <div class="form-goup">
             <form>
                 <label for="fname">Ingrese el tipo de maraton que quiere realizar:</label>
@@ -28,21 +36,13 @@
                 <input type="number" id="duracion_maxima" value="0"><br>
             </form>
         </div>
-    </div>
-
-    <div id="contenedor">
-        <div class="card">
-            <div class="card-body">
-                <h5 id="maraton_mensaje"></h5>
-                <h5 id="maraton_titulo" class="card-title">Nombre Maraton</h5>
-                <h5 id="maraton_capitulos" class="card-title">Capitulos Maraton</h5>
-                <h5 id="maraton_duracion" class="card-title">Duracion Maraton</h5>
-            </div>
+        <div id="botonBusqueda">
+            <button onclick="devolverMaraton()">Buscar contenido</button>
         </div>
     </div>
-    <br>
-    <div id="boton">
-        <button onclick="devolverMaraton()">Buscar contenido</button>
+
+    <div id="contenedor-resultados" class="container">
+
     </div>
     <script src="codigo.js"></script>
 </body>

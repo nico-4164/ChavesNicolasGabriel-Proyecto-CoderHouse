@@ -1,31 +1,23 @@
-body{
-    background-color: deepskyblue;
+
+
+.oscuro{
+    background-color: rgb(37, 30, 82);
+    color: aliceblue;
 }
 
-#titulo{
-    text-align:center;
-    color: greenyellow;
-    background-color: cornflowerblue;
-    font-size: 6em;
+.claro{
+    background-color: aliceblue;
+    color: black;
 }
 
-#contenedor_formulario {
-    background-color: white;
-    border-radius: 10px;
-    border: 1px solid black;
-    margin: 1% auto; }
-
-
-#contenedor{
+.estilo-carta-claro{
+    background-color: silver;
+    color: black;
     text-align: center;
 }
 
-.card{
-    width: 20rem;
-    margin-left: 40%;
-    margin-right: 20%;
-}
-
-#boton{
+.estilo-carta-oscuro{
+    background-color: rgb(58, 42, 126);
+    color: rgb(238, 238, 238);
     text-align: center;
 }
