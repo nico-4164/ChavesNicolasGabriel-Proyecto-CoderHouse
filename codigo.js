@@ -9,7 +9,7 @@ console.dir(document.body);
 
 let tipo="";
 let duracionMinima=0;
-let duracionMaxima=15;
+let duracionMaxima=0;
 let tema = "claro";
 let estiloCarta = "estilo-carta-claro";
 
@@ -25,29 +25,6 @@ inputDuracionMinima.onchange = () => {duracionMinima = inputDuracionMinima.value
 inputDuracionMaxima.onchange = () => {duracionMaxima = inputDuracionMaxima.value};
 
 
-// creo arrays con las series y animes //
-let series=[
-    {nombre : "Bodyguard", capitulos:"13", duracion:4,imagen:"https://i.imgur.com/3jx6Y8b.png",link:"https://www.netflix.com/es/title/80235864"},
-    {nombre : "The Mandalorian", capitulos:"16", duracion:12,imagen:"https://i.imgur.com/PQGvHTD.jpg",link:"https://www.disneyplus.com/es-419/series/the-mandalorian/3jLIGMDYINqD"},
-    {nombre : "Mindhunter temporada 1", capitulos:"10", duracion:10,imagen:"https://i.imgur.com/L23VRzh.jpg",link:"https://www.netflix.com/es/title/80114855"},
-    {nombre : "The Boys temporada 1", capitulos:"8", duracion:8,imagen:"https://i.imgur.com/eLJMgYp.jpg",link:"https://www.primevideo.com/detail/0KRGHGZCHKS920ZQGY5LBRF7MA/ref=atv_dp_season_select_s1"},
-    {nombre : "Stranger Things temporada 1", capitulos:"8", duracion:7,imagen:"https://i.imgur.com/5dvQYiG.jpg",link:"https://www.netflix.com/es/title/80057281"},
-    {nombre : "Mr Robot temporada 1", capitulos:"10", duracion:8,imagen:"https://i.imgur.com/DDk03v8.jpg",link:"https://www.primevideo.com/detail/0ND5POOAYD6A4THTH7C1TD3TYE/ref=atv_dp_season_select_s1?language=es_ES"},
-    {nombre : "Rick And Morty temporada 1", capitulos:"11", duracion:4,imagen:"https://i.imgur.com/2srUl1I.jpg",link:"https://play.hbomax.com/page/urn:hbo:page:GXkRjxwjR68PDwwEAABKJ:type:series"},
-    {nombre : "Chernobyl", capitulos:"5", duracion:5,imagen:"https://i.imgur.com/COACINU.jpg",link:"https://play.hbomax.com/page/urn:hbo:page:GXJvkMAU0JIG6gAEAAAIo:type:series"}
-]
-let animes=[
-    {nombre : "Fullmetal Alchemist: Brotherhood", capitulos:"64", duracion:21,imagen:"https://i.imgur.com/iPmubwo.jpg",link:"https://www.crunchyroll.com/es/fullmetal-alchemist-brotherhood"},
-    {nombre : "Mob Psycho 100", capitulos:"26", duracion:8,imagen:"https://i.imgur.com/aTAqXeO.jpg",link:"https://www.crunchyroll.com/es/mob-psycho-100"},
-    {nombre : "Death Note", capitulos:"37", duracion:12,imagen:"https://i.imgur.com/eC69fXU.jpg",link:"https://www.netflix.com/us-es/title/70204970"},
-    {nombre : "Record of Ragnarok", capitulos:"13", duracion:4,imagen:"https://i.imgur.com/OFDDwUd.jpg",link:"https://www.netflix.com/title/81281579"},
-    {nombre : "Dr. Stone", capitulos:"24", duracion:8,imagen:"https://i.imgur.com/zCHwFRQ.jpg",link:"https://www.crunchyroll.com/es/dr-stone"},
-    {nombre : "Arakawa Under the Bridge", capitulos:"13", duracion:4,imagen:"https://i.imgur.com/XQXccL9.jpg",link:"https://www.crunchyroll.com/es/arakawa-under-the-bridge"},
-    {nombre : "Bakuman", capitulos:"25", duracion:8,imagen:"https://i.imgur.com/1weCaTG.jpg",link:"https://www.hulu.com/series/bakuman-1227fee0-4b9c-4250-843a-0b6d7ea57d61"},
-    {nombre : "Kill la Kill", capitulos:"24", duracion:8,imagen:"https://i.imgur.com/iwUwDyx.jpg",link:"https://www.crunchyroll.com/es/kill-la-kill"},
-    {nombre : "Death Parade", capitulos:"13", duracion:4,imagen:"https://i.imgur.com/DcIpZrV.jpg",link:"https://www.crunchyroll.com/es/death-parade"}
-]
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////    Clases y Objetos   ///////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,22 +37,25 @@ class AnimeSerie{
         this.duracion = duracion;
         this.imagen = imagen;
         this.link = link;
+        this.genero="";
     }
 
     tieneDuracionPedida(min, max){
-        if ((this.duracion >= min) && (this.duracion < max)) {
-            return true;
-        }else{
-            return false;
-        }
+
+        return (this.duracion >= min) && (this.duracion < max) ? true : false;
+    }
+
+    esGenero(_genero){
+        return this.genero == _genero ? true : false;
     }
 
 };
 
-// creo las listas de objetos que se van a usar //
+
+// creo las listas de objetos de las series y animes //
+
 let ListaAnimes = devolverListaDeObjetos(animes);
 let listaSeries = devolverListaDeObjetos(series);
-
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////    Funciones   //////////////////////////////////////////////////////////////////
@@ -84,8 +64,8 @@ let listaSeries = devolverListaDeObjetos(series);
 // funcion para guardar las series y animes en un array de objetos y asi poder usar los metodos de clase //
 function devolverListaDeObjetos(lista) {
     let listaDeObjetos=[];
-    for (let i = 0; i < lista.length; i++) {
-        let objeto = new AnimeSerie(lista[i].nombre,lista[i].capitulos,lista[i].duracion,lista[i].imagen,lista[i].link);
+    for (const elemento of lista) {
+        let objeto = new AnimeSerie(elemento.nombre,elemento.capitulos,elemento.duracion,elemento.imagen,elemento.link);
         listaDeObjetos.push(objeto);
     }
     return listaDeObjetos;
@@ -121,31 +101,49 @@ function crearCartaResultado(maraton) {
 
     let contenedorResultado = document.getElementById("contenedor-resultados");
 
+    Swal.fire({
+        title: '¡¡BUSCANDO MARATON!!',
+        html: 'El resultado se mostrara en <b></b> milisegundos.',
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: () => {
+          Swal.showLoading()
+          const b = Swal.getHtmlContainer().querySelector('b')
+          timerInterval = setInterval(() => {
+            b.textContent = Swal.getTimerLeft()
+          }, 100)
+        },
+        willClose: () => {
+          clearInterval(timerInterval)
+        }
+      })
+
     if (maraton.length == 0) {
         contenedorResultado.innerHTML = 
-        `<div class="card ${estiloCarta}" style="width: 18rem;">
-            <img class="card-img-top" src="https://i.imgur.com/kM3lpVA.png" alt="Card image cap">
+        `<div class="card ${estiloCarta} container" style="margin-right: 40%;margin-left: 40%">
+            <img src="https://i.imgur.com/kM3lpVA.png" alt="Card image cap">
             <div class="card-body">
                 <p class="card-text">Lo sentimos, no fue posible encontrar una maraton con los datos solicitados</p>
             </div>
-         </div>`
+         </div>
+         `
     }else{
-        contenedorResultado.innerHTML = 
-        `<div class="row row-cols-1 row-cols-md-2 g-4">
-            <div class="col" style="max-width: 25rem;">
-                <div class="card h-100">
-                    <div class="card-body ${estiloCarta}">
-                        <h5 class="card-title">${maraton[0].nombre}</h5>
-                        <img src="${maraton[0].imagen}" class="card-img-top">
-                        <p class="card-text">Capitulos: ${maraton[0].capitulos}</p>
-                        <p class="card-text">Duracion: ${maraton[0].duracion} Horas aproximadamente</p>
-                    </div>
-                    <div class="card-footer" style="text-align:center;font-size: 2em;">
-                        <small class="text-muted"><a href="${maraton[0].link}" class="card-link">Ver Online</a></small>
-                    </div>
+        for (const elemento of maraton) {
+            contenedorResultado.innerHTML += 
+            `
+            <div class="card">
+            <img class="card-img-top" src="${elemento.imagen}" alt="Card image cap">
+            <div class="card-body ${estiloCarta}">
+                <h5 class="card-title">${elemento.nombre}</h5>
+                <p class="card-text">Capitulos: ${elemento.capitulos}</p>
+                <p class="card-text">Duracion: ${elemento.duracion} Horas aproximadamente</p>
+                <div class="card-footer" style="text-align:center;font-size: 2em;">
+                    <small class="text-muted"><a href="${elemento.link}" class="card-link">Ver Online</a></small>
                 </div>
             </div>
-        </div>`;
+          </div>`;
+        }
+        
     }
 }
 
@@ -174,7 +172,6 @@ if (localStorage.getItem("modo-oscuro") === "true") {
     document.body.className="oscuro";
     botonTema.innerText="Modo Claro";
     tema="oscuro";
-    console.log("entro en el if de modo oscuro");
 }else{
     document.body.className = "claro";
     botonTema.innerText = "Modo Oscuro";
@@ -192,8 +189,13 @@ function devolverMaraton() {
     let maraton=[];
 
     //primero me fijo que los datos ingredaos sean validos
-    if (duracionMinima.value >= duracionMaxima.value) {
-        return alert("Los valores ingresados para la duracion de la maraton son invalidos");
+    if (parseInt(duracionMinima) >= parseInt(duracionMaxima)) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Los valores ingresados para la duracion de la maraton son invalidos',
+        })
+        return
     }
 
     //si los datos son validos, asignos los valores a las variables y las uso para encontrar una serie o anime para ver
@@ -202,8 +204,6 @@ function devolverMaraton() {
 
     //con los valores de la serie o anime creo un objeto maraton para que mostrar los datos
     crearCartaResultado(maraton);
-    
-
 }
 
 
