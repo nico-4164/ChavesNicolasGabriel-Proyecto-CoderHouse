@@ -22,26 +22,47 @@
     </nav>
 
     <div id="contenedor" class="container">
-        <div class="form-goup">
-            <form>
-                <label for="fname">Ingrese el tipo de maraton que quiere realizar:</label>
-                <select name="cars" id="tipo_maraton">
-                    <option value="anime">Elegir tipo de maraton</option>
-                    <option value="anime">anime</option>
-                    <option value="serie">Serie</option>
-                </select><br>
-                <label for="fname">Ingrese la duracion minima que quiere para su maraton:</label>
-                <input type="number" id="duracion_minima" value="0"><br>
-                <label for="lname">Ingrese la duracion maxima que quiere para su maraton:</label>
-                <input type="number" id="duracion_maxima" value="0"><br>
-            </form>
-        </div>
-        <div id="botonBusqueda">
-            <button onclick="devolverMaraton()">Buscar contenido</button>
-        </div>
+        <table>
+            <tr>
+                <th>Tipo</th>
+                <th>Duracion Minima</th>
+                <th>Duracion Maxima</th>
+                <th>Genero</th>
+                <th>Buscar Maraton</th>
+            </tr>
+            <tr>
+                <td>
+                    <select name="cars" id="tipo_maraton">
+                        <option value=""></option>
+                        <option value="anime">anime</option>
+                        <option value="serie">Serie</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="number" id="duracion_minima" value="0"><br>
+                </td>
+                <td>
+                    <input type="number" id="duracion_maxima" value="0"><br>
+                </td>
+                <td>
+                    <select name="cars" id="genero_maraton">
+                        <option value=""></option>
+                        <option value=1>Accion</option>
+                        <option value=2>Aventura</option>
+                        <option value=3>Carreras</option>
+                        <option value=4>Comedia</option>
+                        <option value=7>Misterio</option>
+                        <option value=8>Drama</option>
+                    </select>
+                </td>
+                <td>
+                    <button id="botonBusqueda" onclick="devolverMaraton()">CLICK AQUI</button>
+                </td>
+            </tr>
+        </table>
     </div>
 
-    <div id="contenedor-resultados" class="card-deck">
+    <div id="contenedor-resultados" class="card-deck oscuro">
 
     </div>
 
