@@ -5,13 +5,12 @@
 ////////////////////////////////////////////////////////////    Variables y Arrays   ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-let tipo="";
+
 let duracionMinima=0;
 let duracionMaxima=0;
 let tema = "claro";
 let estiloCarta = "estilo-carta-claro";
 
-let inputTipo = document.getElementById("tipo_maraton");
 let inputDuracionMinima = document.getElementById("duracion_minima");
 let inputDuracionMaxima = document.getElementById("duracion_maxima");
 let inputGenero = document.getElementById("genero_maraton");
@@ -19,13 +18,11 @@ let inputGenero = document.getElementById("genero_maraton");
 let botonTema = document.getElementById("botonTema");
 let botonBusqueda = document.getElementById("botonBusqueda");
 
-inputTipo.onchange = () => {tipo = inputTipo.value};
 inputDuracionMinima.onchange = () => {duracionMinima = inputDuracionMinima.value};
 inputDuracionMaxima.onchange = () => {duracionMaxima = inputDuracionMaxima.value};
 inputGenero.onchange = ()  => {_genero = inputGenero.value}
 
 let _listaAnimes;
-let _listaSeries;
 
 const opcionesFetch = {
 	method: 'GET',
@@ -42,7 +39,7 @@ const opcionesFetch = {
 
 
 // clase principal que voy a usar para crear los contenidos de las maratones //
-class AnimeSerie{
+class Anime{
     constructor(nombre,capitulos,duracion,imagen,link,puntaje){
         this.nombre = nombre;
         this.capitulos = capitulos;
@@ -70,9 +67,6 @@ class AnimeSerie{
 // creo las listas de objetos de las series y animes //
 const crearListaDeAnime = async() => {
 
-    
-    console.log(_genero);
-
     let URL="https://jikan1.p.rapidapi.com/genre/anime/"+_genero+"/1";
 
     const respuesta = await fetch(URL,opcionesFetch);
@@ -82,49 +76,25 @@ const crearListaDeAnime = async() => {
 }
 
 
-_listaSeries = devolverListaDeObjetos(series);
-
-
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////    Funciones   //////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// funcion para guardar las series y animes en un array de objetos y asi poder usar los metodos de clase //
-function devolverListaDeObjetos(lista) {
+// funcion para filtrar la busqueda por tipo //
+async function devolverLista() {
 
     let listaDeObjetos=[];
-    for (const elemento of lista) {
-        let objeto = new AnimeSerie(elemento.nombre,elemento.capitulos,0.75,elemento.imagen,elemento.link,8);
+
+    _listaAnimes = await crearListaDeAnime();
+    
+    for (const elemento of _listaAnimes) {
+        let objeto = new Anime(elemento.title,elemento.episodes,0.3,elemento.image_url,elemento.url,elemento.score);
         listaDeObjetos.push(objeto);
     }
     return listaDeObjetos;
 
-}
-
-
-
-// funcion para filtrar la busqueda por tipo //
-async function filtrarPorTipo(tipo) {
-
-    let listaDeObjetos=[];
-
-    switch (tipo) {
-        case "serie":
-            return _listaSeries;
-
-        case "anime":
-            _listaAnimes = await crearListaDeAnime();
-            for (const elemento of _listaAnimes) {
-                let objeto = new AnimeSerie(elemento.title,elemento.episodes,0.3,elemento.image_url,elemento.url,elemento.score);
-                listaDeObjetos.push(objeto);
-            }
-            return listaDeObjetos;
-
-        default:
-            break;
-    }
 }
 
 
@@ -135,9 +105,7 @@ function filtarPoDuracion(lista, min , max) {
     let maratonRespuesta=[];
 
     for(const contenido of lista){
-        console.log("LOG DENTRO DEL FOR "+contenido);
         if (contenido.tieneDuracionPedida(min,max)) {
-            console.log("LOG DENTRO DEL IF "+contenido);
             maratonRespuesta.push(contenido);
         }
     }
@@ -236,6 +204,10 @@ async function devolverMaraton() {
     let maraton=[];
 
     //primero me fijo que los datos ingredaos sean validos
+
+    console.log(duracionMinima)
+    console.log(duracionMaxima)
+
     if (parseInt(duracionMinima) >= parseInt(duracionMaxima)) {
         Swal.fire({
             icon: 'error',
@@ -246,7 +218,7 @@ async function devolverMaraton() {
     }
 
     //si los datos son validos, asignos los valores a las variables y las uso para encontrar una serie o anime para ver
-    maraton = await filtrarPorTipo(tipo);
+    maraton = await devolverLista();
     console.log(maraton)
 
     const maratonFinal = filtarPoDuracion(maraton, duracionMinima, duracionMaxima);
