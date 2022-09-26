@@ -16,10 +16,19 @@
     <nav class="navbar navbar-dark bg-primary">
         <!-- Navbar content -->
         <h1 id="titulo">Animaraton</h1>
+        <a href="views/proximos-Animes.html"><h3>TOP 50 mas esperados</h3></a>
         <ul class="nav navbar-nav navbar-right">
             <button id="botonTema" class="switch">Modo Oscuro</button>
         </ul>
     </nav>
+
+    <br>
+    <div class="mensaje">
+        <h5>Bienvenido a Animaraton, el lugar para buscar maratones de anime para esos dias de "relax" donde solo quiereas sentarte en el sillon o cama y disfrutar el dia de un buen contenido del pais Nipón.
+        </h5>
+        <h5>Ingrese los datos del tipo de marato que desea obtener y oprima el buton de "Buscar Maraton"</h5>
+    </div>
+    <br>
 
     <div id="contenedor" class="container">
         <table>
@@ -27,6 +36,7 @@
                 <th>Duracion Minima</th>
                 <th>Duracion Maxima</th>
                 <th>Genero</th>
+                <th>Puntaje/Rating</th>
                 <th>Buscar Maraton</th>
             </tr>
             <tr>
@@ -37,7 +47,7 @@
                     <input type="number" id="duracion_maxima" value="0"><br>
                 </td>
                 <td>
-                    <select name="cars" id="genero_maraton">
+                    <select id="genero_maraton">
                         <option value=""></option>
                         <option value=1>Accion</option>
                         <option value=2>Aventura</option>
@@ -48,19 +58,26 @@
                     </select>
                 </td>
                 <td>
+                    <select id="puntaje_maraton">
+                        <option value=""></option>
+                        <option value=6>Mayor a 6 puntos</option>
+                        <option value=7>Mayor a 7 puntos</option>
+                        <option value=8>Mayor a 8 puntos</option>
+                        <option value=9>Mayor a 9 puntos</option>
+                    </select>
+                </td>
+                <td>
                     <button id="botonBusqueda" onclick="devolverMaraton()">CLICK AQUI</button>
                 </td>
             </tr>
         </table>
     </div>
 
-    <div id="contenedor-resultados" class="card-deck oscuro">
+    <div id="contenedor-resultados" class="card-deck contenedor-resultados">
 
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="js/Anime.js"></script>
-    <script src="js/Serie.js"></script>
-    <script src="codigo.js"></script>
+    <script src="js/codigo.js"></script>
 </body>
 </html>
