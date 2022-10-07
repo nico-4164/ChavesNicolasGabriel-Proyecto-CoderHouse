@@ -74,12 +74,13 @@ class Anime{
 // creo las listas de objetos de las series y animes //
 const crearListaDeAnime = async() => {
 
-    let URL="https://jikan1.p.rapidapi.com/genre/anime/"+_genero+"/1";
+    let URL="https://api.jikan.moe/v4/anime?genres="+_genero;
 
-    const respuesta = await fetch(URL,opcionesFetch);
+    const respuesta = await fetch(URL);
     const animes = await respuesta.json();
 
-    return animes.anime;
+    console.log(animes.data)
+    return animes.data;
 }
 
 
@@ -97,7 +98,7 @@ async function devolverLista() {
     _listaAnimes = await crearListaDeAnime();
     
     for (const elemento of _listaAnimes) {
-        let objeto = new Anime(elemento.title,elemento.episodes,elemento.image_url,elemento.url,elemento.score);
+        let objeto = new Anime(elemento.title,elemento.episodes,elemento.images.jpg.image_url,elemento.url,elemento.score);
         listaDeObjetos.push(objeto);
     }
     return listaDeObjetos;
@@ -143,8 +144,28 @@ async function crearCartaResultado(maraton) {
          </div>
          `
     }
+    else if(maraton.length <= 5){
+        for (const elemento of maraton) {
+            contenedorResultado.innerHTML += 
+            `
+            <div class="col">
+                <div class="card h-100">
+                <img class="card-img-top" src="${elemento.imagen}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">${elemento.nombre}</h5>
+                    <p class="card-text">Capitulos: ${elemento.capitulos}</p>
+                    <p class="card-text">Duracion: ${elemento.duracionAproximada()} Horas aproximadamente</p>
+                    <div class="card-footer" style="text-align:center;font-size: 2em;">
+                        <p>RATING<p>
+                        <h3>${elemento.puntaje}<h3>
+                    </div>
+                </div>
+                </div>
+            </div>`
+        }
+    }
     else{
-        for (let index = 0; index < 5; index++) {
+        for (let index = 0; index < 6; index++) {
             
             const elemento = maraton[index];
             contenedorResultado.innerHTML += 
@@ -217,7 +238,7 @@ async function devolverMaraton() {
 
     //primero me fijo que los datos ingredaos sean validos
 
-    if (parseInt(duracionMinima) >= parseInt(duracionMaxima)) {
+    if (parseInt(duracionMinima) >= parseInt(duracionMaxima) || (duracionMinima <= 0) || (duracionMaxima <=0)) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -231,7 +252,9 @@ async function devolverMaraton() {
     const maratonFinal = filtar(maraton);
 
     //con los valores de la serie o anime creo un objeto maraton para que mostrar los datos
+
     crearCartaResultado(await maratonFinal);
+    console.log(maratonFinal.length)
 }
 
 

@@ -29,13 +29,13 @@ const opcionesFetch = {
 
 // clase principal que voy a usar para crear los contenidos de las maratones //
 class Anime{
-    constructor(nombre,capitulos,duracion,imagen,link,fecha){
+    constructor(nombre,capitulos,imagen,link,puntaje){
         this.nombre = nombre;
         this.capitulos = capitulos;
-        this.duracion = duracion;
+        this.duracion = 0.3;
         this.imagen = imagen;
         this.link = link;
-        this.fecha=fecha;
+        this.puntaje=puntaje;
     }
 
     tieneDuracionPedida(min, max){
@@ -64,12 +64,12 @@ class Anime{
 // creo las listas de objetos de las series y animes //
 const crearListaDeAnime = async() => {
 
-    let URL="https://jikan1.p.rapidapi.com/top/anime/1/upcoming";
+    let URL="https://api.jikan.moe/v4/top/anime";
 
-    const respuesta = await fetch(URL,opcionesFetch);
+    const respuesta = await fetch(URL);
     const animes = await respuesta.json();
 
-    return animes.top;
+    return animes.data;
 }
 
 
@@ -87,7 +87,7 @@ async function devolverLista() {
     _listaAnimes = await crearListaDeAnime();
     
     for (const elemento of _listaAnimes) {
-        let objeto = new Anime(elemento.title,elemento.episodes,0.3,elemento.image_url,elemento.url,elemento.start_date);
+        let objeto = new Anime(elemento.title,elemento.episodes,elemento.images.jpg.image_url,elemento.url,elemento.score);
         listaDeObjetos.push(objeto);
     }
     return listaDeObjetos;
@@ -113,8 +113,8 @@ async function crearCartaResultado(proximosAnimes) {
                 <h5 class="card-title">${elemento.nombre}</h5>
                 <p class="card-text">Capitulos: ${elemento.devolverCapitulos()}</p>
                 <div class="card-footer" style="text-align:center;font-size: 2em;">
-                    <p>Fecha de estreno<p>
-                    <h3>${elemento.devolverFecha()}<h3>
+                    <p>${elemento.puntaje}<p>
+                    <h5>${elemento.duracionAproximada()} horas aproximadamente<h5>
                 </div>
             </div>
             </div>
